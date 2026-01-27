@@ -27,9 +27,15 @@
       url = "path:./dev/dora-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ros2-env-dev = {
+      url = "path:./dev/ros2-env";
+      inputs.nixpkgs.follows = "nix-ros-overlay/nixpkgs";
+    };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs =
+    inputs@{ nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
