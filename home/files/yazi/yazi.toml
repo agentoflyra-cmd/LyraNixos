@@ -1,0 +1,9 @@
+[flavor]
+use = "noctalia"
+
+[log]
+enabled = false
+
+[mgr]
+show_hidden = false
+
