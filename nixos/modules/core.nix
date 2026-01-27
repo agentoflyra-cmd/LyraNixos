@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, lib, ... }:
 {
   # Bootloader (保持 systemd-boot)
   boot.loader.systemd-boot.enable = true;
@@ -6,7 +6,12 @@
 
   # 网络
   networking.networkmanager.enable = true;
-  networking.nameservers = [ "8.8.8.8" "114.114.114.114" "9.9.9.9" "1.1.1.1" ];
+  networking.nameservers = [
+    "8.8.8.8"
+    "114.114.114.114"
+    "9.9.9.9"
+    "1.1.1.1"
+  ];
 
   # 时区
   time.timeZone = "Asia/Shanghai";
@@ -20,7 +25,10 @@
       "https://mirrors.ustc.edu.cn/nix-channels/store?priority=5"
       "https://cache.nixos.org/"
     ];
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   # sound (pipewire)
@@ -34,11 +42,20 @@
 
   services.dnsmasq = {
     enable = true;
-    settings.server = [ "8.8.8.8" "1.1.1.1" ];
+    settings.server = [
+      "8.8.8.8"
+      "1.1.1.1"
+    ];
   };
 
   programs.firefox.enable = true;
   services.flatpak.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    config.common.default = "wlr";
+  };
 
   services.mihomo = {
     enable = true;
@@ -68,7 +85,13 @@
 
   users.users.lyra = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" "input" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "audio"
+      "input"
+      "networkmanager"
+    ];
     packages = with pkgs; [
       pavucontrol
       papirus-icon-theme
@@ -77,22 +100,28 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    helix
-    home-manager
-    wget
-    curl
-    git
-    kitty
-    mihomo
-    mpv
-    wl-clipboard
-    grim
-    swayimg
-    slurp
-    sway-contrib.grimshot
-    xdg-utils
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      helix
+      home-manager
+      wget
+      curl
+      git
+      kitty
+      mihomo
+      mpv
+      wl-clipboard
+      grim
+      swayimg
+      slurp
+      sway-contrib.grimshot
+      xdg-utils
+    ]
+    # nixGL uses builtins.currentTime in some versions; skip if unavailable.
+    ++ lib.optionals (builtins ? currentTime) [
+      inputs.nixGL.packages.${pkgs.system}.default
+    ];
 
   environment.sessionVariables = {
     HTTP_PROXY = "http://127.0.0.1:7890";
