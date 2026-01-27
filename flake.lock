@@ -18,8 +18,10 @@
         "type": "github"
       },
       "original": {
+        "narHash": "sha256-wyT7Pl6tMFbFrs8Lk/TlEs81N6L+VSybPfiIgzU8lbQ=",
         "owner": "ryantm",
         "repo": "agenix",
+        "rev": "fcdea223397448d35d9b31f798479227e80183f6",
         "type": "github"
       }
     },

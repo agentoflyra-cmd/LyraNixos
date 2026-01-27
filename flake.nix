@@ -25,7 +25,7 @@
     nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
 
     agenix = {
-      url = "github:ryantm/agenix";
+      url = "github:ryantm/agenix?rev=fcdea223397448d35d9b31f798479227e80183f6&narHash=sha256-wyT7Pl6tMFbFrs8Lk/TlEs81N6L+VSybPfiIgzU8lbQ=";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
