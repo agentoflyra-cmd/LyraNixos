@@ -22,6 +22,13 @@
 
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
+    nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # 本地开发环境（作为子 flake 暴露到顶层，便于 `nix develop .#dora-rs`）
     dora-rs-dev = {
       url = "path:./dev/dora-rs";
@@ -30,7 +37,10 @@
 
     ros2-env-dev = {
       url = "path:./dev/ros2-env";
-      inputs.nixpkgs.follows = "nix-ros-overlay/nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nix-ros-overlay/nixpkgs";
+        nix-ros-overlay.follows = "nix-ros-overlay";
+      };
     };
   };
 

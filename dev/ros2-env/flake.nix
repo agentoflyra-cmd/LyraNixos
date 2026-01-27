@@ -1,38 +1,45 @@
 {
+  description = "ROS2 dev shell (nix-ros-overlay)";
   inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
     nix-ros-overlay.url = "github:lopsided98/nix-ros-overlay/master";
+    nixpkgs.follows = "nix-ros-overlay/nixpkgs"; # IMPORTANT!!!
   };
   outputs =
     {
       self,
+      flake-utils,
       nix-ros-overlay,
       nixpkgs,
     }:
-    nix-ros-overlay.inputs.flake-utils.lib.eachDefaultSystem (
+    flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs {
           inherit system;
           overlays = [ nix-ros-overlay.overlays.default ];
         };
+        rosPackages = with pkgs.rosPackages.humble; [
+          ros-core
+          # ... other ROS packages
+          desktop
+          unitree-ros
+        ];
+        rosEnv = with pkgs.rosPackages.humble; buildEnv {
+          paths = [
+            rosPackages
+          ];
+        };
       in
       {
-        devShells.default = pkgs.mkShell {
+        packages.${system}.rosEnv = rosEnv;
+
+        devShells.${system}.default = pkgs.mkShell {
           name = "Example project";
           packages = [
             pkgs.colcon
             # ... other non-ROS packages
-            (
-              with pkgs.rosPackages.humble;
-              buildEnv {
-                paths = [
-                  ros-core
-                  # ... other ROS packages
-                  desktop
-                  unitree-ros
-                ];
-              }
-            )
+            rosEnv
           ];
         };
       }

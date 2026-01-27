@@ -8,6 +8,7 @@
     ../../modules/chinese.nix
     ../../modules/noctalia.nix
     ../../modules/niri.nix
+    ../../modules/agenix.nix
   ];
 
   networking.hostName = "nixos";
