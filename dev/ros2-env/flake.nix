@@ -25,22 +25,33 @@
           desktop
           unitree-ros
         ];
-        rosEnv = with pkgs.rosPackages.humble; buildEnv {
-          paths = [
-            rosPackages
-          ];
-        };
+        rosEnv =
+          with pkgs.rosPackages.humble;
+          buildEnv {
+            paths = rosPackages;
+          };
       in
       {
-        packages.${system}.rosEnv = rosEnv;
+        packages.rosEnv = rosEnv;
 
-        devShells.${system}.default = pkgs.mkShell {
+        devShells.default = pkgs.mkShell {
           name = "Example project";
           packages = [
             pkgs.colcon
             # ... other non-ROS packages
             rosEnv
           ];
+          shellHook = ''
+            if [[ ! $DIRENV_IN_ENVRC ]]; then
+                eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete ros2)"
+                eval "$(${pkgs.python3Packages.argcomplete}/bin/register-python-argcomplete colcon)"
+            fi
+            source ${pkgs.rosPackages.humble.ros-core}/share/ros_core/local_setup.bash
+
+            unset QT_QPA_PLATFORM
+            export QT_QPA_PLATFORM=xcb
+            echo "ROS2 ready!"
+          '';
         };
       }
     );

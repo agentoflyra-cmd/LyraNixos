@@ -1,4 +1,9 @@
-{ pkgs, inputs, lib, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 {
   # Bootloader (保持 systemd-boot)
   boot.loader.systemd-boot.enable = true;
@@ -100,28 +105,26 @@
     ];
   };
 
-  environment.systemPackages =
-    with pkgs;
-    [
-      helix
-      home-manager
-      wget
-      curl
-      git
-      kitty
-      mihomo
-      mpv
-      wl-clipboard
-      grim
-      swayimg
-      slurp
-      sway-contrib.grimshot
-      xdg-utils
-    ]
-    # nixGL uses builtins.currentTime in some versions; skip if unavailable.
-    ++ lib.optionals (builtins ? currentTime) [
-      inputs.nixGL.packages.${pkgs.system}.default
-    ];
+  environment.systemPackages = with pkgs; [
+    helix
+    home-manager
+    wget
+    curl
+    git
+    kitty
+    mihomo
+    mpv
+    wl-clipboard
+    grim
+    swayimg
+    slurp
+    sway-contrib.grimshot
+    xdg-utils
+  ];
+  # # nixGL uses builtins.currentTime in some versions; skip if unavailable.
+  # ++ lib.optionals (builtins ? currentTime) [
+  #   inputs.nixGL.packages.${pkgs.system}.default
+  # ];
 
   environment.sessionVariables = {
     HTTP_PROXY = "http://127.0.0.1:7890";

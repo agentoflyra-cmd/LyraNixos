@@ -5,6 +5,8 @@
     # 保持你原来的 nixpkgs 来源（清华 git 镜像）
     nixpkgs.url = "git+https://mirrors.tuna.tsinghua.edu.cn/git/nixpkgs.git?ref=nixos-unstable&shallow=1";
 
+    nixGL.url = "github:nix-community/nixGL";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -68,7 +70,13 @@
         ];
       };
 
-      devShells.${system}.dora-rs = inputs.dora-rs-dev.devShells.${system}.default;
+      # devShells.${system}.dora-rs = inputs.dora-rs-dev.devShells.${system}.default;
+      # devShells.${system}.ros2-env = inputs.ros2-env-dev.devShells.${system}.default;
+
+      devShells.${system} = {
+        dora-rs = inputs.dora-rs-dev.devShells.${system}.default;
+        ros2-env = inputs.ros2-env-dev.devShells.${system}.default;
+      };
 
       homeConfigurations.lyra = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;

@@ -1,15 +1,16 @@
-{ ... }:
+{ config, lib, ... }:
 {
   imports = [
     ./hardware-configuration.nix
-
     ../../modules/kernel.nix
     ../../modules/core.nix
     ../../modules/chinese.nix
     ../../modules/noctalia.nix
     ../../modules/niri.nix
     ../../modules/agenix.nix
-  ];
+    ../../modules/system_graphics.nix
+  ]
+  ++ lib.optional (builtins.pathExists ./.use-nvidia) ../../modules/nvidia.nix;
 
   networking.hostName = "nixos";
 

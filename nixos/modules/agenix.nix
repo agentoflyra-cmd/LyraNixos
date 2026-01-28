@@ -1,10 +1,16 @@
 { inputs, pkgs, config, ... }:
 let
   nixConf = "/etc/nix/nix.conf";
+  nixRuntimeConf = "/run/agenix/nix.conf";
   tokenFile = config.age.secrets.github-token.path;
 in
 {
   imports = [ inputs.agenix.nixosModules.default ];
+
+  # Load a runtime-only config so tokens don't end up in the Nix store.
+  nix.extraOptions = ''
+    !include ${nixRuntimeConf}
+  '';
 
   environment.systemPackages = [
     inputs.agenix.packages.${pkgs.system}.default
@@ -20,17 +26,8 @@ in
   };
 
   system.activationScripts.githubAccessToken.text = ''
-    install -d -m 0755 /etc/nix
-    touch ${nixConf}
+    install -d -m 0755 /run/agenix
     token="$(cat ${tokenFile})"
-    if grep -q '^access-tokens = ' ${nixConf}; then
-      if grep -q 'github.com=' ${nixConf}; then
-        sed -i "s#github.com=[^ ]*#github.com=$token#g" ${nixConf}
-      else
-        sed -i "s#^access-tokens = #&github.com=$token #g" ${nixConf}
-      fi
-    else
-      echo "access-tokens = github.com=$token" >> ${nixConf}
-    fi
+    echo "access-tokens = github.com=$token" > ${nixRuntimeConf}
   '';
 }
