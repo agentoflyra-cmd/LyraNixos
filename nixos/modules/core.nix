@@ -120,6 +120,7 @@
     slurp
     sway-contrib.grimshot
     xdg-utils
+    audacity
   ];
   # # nixGL uses builtins.currentTime in some versions; skip if unavailable.
   # ++ lib.optionals (builtins ? currentTime) [
