@@ -23,6 +23,7 @@
           ros-core
           # ... other ROS packages
           desktop
+          rmw-cyclonedds-cpp
           unitree-ros
         ];
         rosEnv =

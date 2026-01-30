@@ -32,6 +32,11 @@
     };
 
     # 本地开发环境（作为子 flake 暴露到顶层，便于 `nix develop .#dora-rs`）
+    cpp-dev = {
+      url = "path:./dev/cpp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dora-rs-dev = {
       url = "path:./dev/dora-rs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -74,6 +79,7 @@
       # devShells.${system}.ros2-env = inputs.ros2-env-dev.devShells.${system}.default;
 
       devShells.${system} = {
+        cpp = inputs.cpp-dev.devShells.${system}.default;
         dora-rs = inputs.dora-rs-dev.devShells.${system}.default;
         ros2-env = inputs.ros2-env-dev.devShells.${system}.default;
       };
