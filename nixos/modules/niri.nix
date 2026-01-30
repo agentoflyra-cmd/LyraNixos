@@ -39,6 +39,7 @@
     GDK_BACKEND = "wayland,x11";
     CLUTTER_BACKEND = "wayland";
     SDL_VIDEODRIVER = "wayland";
+    XDG_CURRENT_DESKTOP = "wlroots";
 
     # Qt Wayland 支持
     QT_QPA_PLATFORM = "wayland;xcb";
