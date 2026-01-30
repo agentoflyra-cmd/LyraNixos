@@ -58,8 +58,8 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
-    config.common.default = "wlr";
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    config.common.default = "gnome";
   };
 
   services.mihomo = {
@@ -120,6 +120,7 @@
     slurp
     sway-contrib.grimshot
     xdg-utils
+    audacity
   ];
   # # nixGL uses builtins.currentTime in some versions; skip if unavailable.
   # ++ lib.optionals (builtins ? currentTime) [
