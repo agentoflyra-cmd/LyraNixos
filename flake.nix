@@ -49,6 +49,11 @@
         nix-ros-overlay.follows = "nix-ros-overlay";
       };
     };
+
+    lfs-env = {
+      url = "path:./dev/lfs-env";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -82,6 +87,7 @@
         cpp = inputs.cpp-dev.devShells.${system}.default;
         dora-rs = inputs.dora-rs-dev.devShells.${system}.default;
         ros2-env = inputs.ros2-env-dev.devShells.${system}.default;
+        lfs-env = inputs.lfs-env.devShells.${system}.default;
       };
 
       homeConfigurations.lyra = home-manager.lib.homeManagerConfiguration {

@@ -25,6 +25,9 @@
           desktop
           rmw-cyclonedds-cpp
           unitree-ros
+          realsense2-camera
+          ament-cmake-core
+          python-cmake-module
         ];
         rosEnv =
           with pkgs.rosPackages.humble;
