@@ -17,7 +17,6 @@
   home.stateVersion = "25.11";
 
   home.packages = [
-    pkgs.nomachine-client
     pkgs.dnsmasq
     pkgs.clang
     pkgs.nil
